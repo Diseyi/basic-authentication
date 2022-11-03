@@ -4,6 +4,11 @@ import { body, validationResult } from 'express-validator';
 const { v4: uuid } = require('uuid');
 import Users from "../../../models/useModel";
 
+const errorJson =  {
+    status: "failed",
+    message: "Invalid email or password ",
+}
+
 
 export const Login = async (req: Request, res: Response) => {
     const { email, password } = req.body
@@ -23,14 +28,14 @@ export const Login = async (req: Request, res: Response) => {
         );
     }
 
-    const user = Users!.find(user => user.email === email);
-    if (user === undefined) {
-        return res.status(400).json(
-            {
-                status: "failed",
-                message: "User does not exist! ",
-            }
-        );
+    const user = await Users.findOne({ email }).populate("password");
+
+    if (!user) {
+        return res.status(400).json(errorJson);
+    }
+
+    if (password !== user.password) {
+        return res.status(400).json(errorJson);
     }
 
     try {

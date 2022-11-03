@@ -23,7 +23,7 @@ export const Signup = async (req: Request, res: Response) => {
         );
     }
 
-    const user = Users!.find(user => user.email === email);
+    const user = await Users.findOne({ email }).populate("password");
     if (user) {
         return res.status(400).json(
             {
@@ -34,14 +34,12 @@ export const Signup = async (req: Request, res: Response) => {
     }
 
     try {
-        const date = new Date().toLocaleDateString();
-        const time = new Date().toLocaleTimeString();
+        const createdAt = new Date();
         const user = await req.body;
         user.id = uuid();
-        user.date = date;
-        user.time = time;
+        user.createdAt = createdAt;
 
-        Users!.push(user);
+       await Users.create(user);
         res.status(200)
         res.send({
             status: "success",
@@ -50,6 +48,6 @@ export const Signup = async (req: Request, res: Response) => {
 
         })
     } catch (error) {
-        res.status(500).json({ error: "Signup failed failed" });
+        res.status(500).json({ error });
     }
 }
