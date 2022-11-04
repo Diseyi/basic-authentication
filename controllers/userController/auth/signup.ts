@@ -2,6 +2,7 @@
 import { Request, Response } from "express";
 import { validationResult } from 'express-validator';
 const { v4: uuid } = require('uuid');
+import * as bcrypt from 'bcrypt';
 import Users from "../../../models/useModel";
 
 
@@ -34,10 +35,13 @@ export const Signup = async (req: Request, res: Response) => {
     }
 
     try {
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
         const createdAt = new Date();
         const user = await req.body;
         user.id = uuid();
         user.createdAt = createdAt;
+        user.password = hash
 
        await Users.create(user);
         res.status(200)

@@ -1,6 +1,7 @@
 
 import { Request, Response } from "express";
 import { validationResult } from 'express-validator';
+import * as bcrypt from 'bcrypt';
 import Users from "../../../models/useModel";
 
 const errorJson =  {
@@ -30,10 +31,17 @@ export const Login = async (req: Request, res: Response) => {
     const user = await Users.findOne({ email }).populate("password");
 
     if (!user) {
-        return res.status(400).json(errorJson);
+        return res.status(400).json(
+            {
+                status: "failed",
+                message: "User does not exist",
+            }
+        );
     }
 
-    if (password !== user.password) {
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
         return res.status(400).json(errorJson);
     }
 
