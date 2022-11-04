@@ -1,7 +1,6 @@
 
 import { Request, Response } from "express";
-import { body, validationResult } from 'express-validator';
-const { v4: uuid } = require('uuid');
+import { validationResult } from 'express-validator';
 import Users from "../../../models/useModel";
 
 const errorJson =  {
@@ -49,6 +48,4 @@ export const Login = async (req: Request, res: Response) => {
     } catch (error) {
         res.status(500).json({ error: "Login failed" });
     }
-
-
 }
