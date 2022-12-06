@@ -1,7 +1,8 @@
 import express from "express";
 import { body } from 'express-validator';
-import { Login } from "../controllers/userController/auth/login";
-import { Signup } from "../controllers/userController/auth/signup";
+import { Login } from "../controllers/userController/login";
+import { Signup } from "../controllers/userController/signup";
+import { requireAuth } from "../middlewares/requireAuth";
 
 const router = express.Router()
 
@@ -19,5 +20,8 @@ router.post("/login",
     Login)
 
 router.post("/signup", Signup)
+router.get("/users",     requireAuth, (req, res) => {
+    res.send("hello")
+})
 
 export default router

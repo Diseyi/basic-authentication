@@ -1,8 +1,6 @@
 
 import { Schema, model } from "mongoose"
 
-// const Users: IUser[] | null = []
-
 const userSchema = new Schema({
     email: {
         type: String,
