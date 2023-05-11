@@ -12,15 +12,10 @@ const router = express.Router()
 //     next()
 // })
 
-router.post("/login",
-    // username must be an email
-    body('email').isEmail(),
-    // password must be at least 5 chars long
-    body('password').isLength({ min: 5 }),
-    Login)
+router.post("/login", Login)
 
 router.post("/signup", Signup)
-router.get("/users",     requireAuth, (req, res) => {
+router.get("/users", requireAuth, (req, res) => {
     res.send("hello")
 })
 
