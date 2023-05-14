@@ -2,8 +2,9 @@
 import { Request, Response } from "express";
 import { validationResult } from 'express-validator';
 import {omit} from "lodash";
-import { createToken } from "../../utilities/jwt";
+import { accessToken, refreshToken } from "../../utilities/jwt";
 import { findUser, validateUser } from "../../services/user.services";
+import { refreshTokenArray } from "../..";
 
 const errorJson = {
     status: "failed",
@@ -42,8 +43,11 @@ export const Login = async (req: Request, res: Response) => {
     }
 
     try {
-        const token = createToken(user.id, user.email);
-        const data = {...omit(user, "password", "_id", "__v"), token}
+        const accesstoken = accessToken(user.id, user.email);
+        const refreshtoken = refreshToken(user.id, user.email);
+        refreshTokenArray.push(refreshtoken)
+
+        const data = {...omit(user, "password", "_id", "__v"), accesstoken, refreshtoken}
         res.status(200).send({
             status: "success",
             message: "user succesfully signed in",

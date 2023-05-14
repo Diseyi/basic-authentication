@@ -1,8 +1,6 @@
 import express from "express";
-import { body } from 'express-validator';
-import { Login } from "../controllers/userController/login";
-import { Signup } from "../controllers/userController/signup";
-import { requireAuth } from "../middlewares/requireAuth";
+import { User, Login, Signup, DeleteToken, RefreshToken } from "../controllers/userController";
+import { authenticateToken} from "../utilities/jwt";
 
 const router = express.Router()
 
@@ -12,11 +10,11 @@ const router = express.Router()
 //     next()
 // })
 
-router.post("/login", Login)
-
-router.post("/signup", Signup)
-router.get("/users", requireAuth, (req, res) => {
-    res.send("hello")
-})
+router
+.post("/login", Login)
+.post("/signup", Signup)
+.get("/users", authenticateToken, User)
+.post("/token", RefreshToken)
+.post("/logout", DeleteToken)
 
 export default router

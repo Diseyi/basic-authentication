@@ -1,5 +1,5 @@
 # 
-POST http://localhost:4040/api/v1/users/signup
+POST http://localhost:4040/api/auth/signup
 Content-Type: application/json
 
 {
@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ### 
-POST http://localhost:4040/api/v1/users/login
+POST http://localhost:4040/api/auth/login
 Content-Type: application/json
 
 {
@@ -17,4 +17,21 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:4040/api/v1/users/users
+GET http://localhost:4040/api/auth/users
+Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNmM3YjcwLTYzZjItNGU2OS1hYTY4LTM4M2IyYWZiZWJmZiIsImVtYWlsIjoic2V5aTNAZ21haWwuY29tIiwiaWF0IjoxNjg0MDQ3NzcyLCJleHAiOjE2ODQwNDc4MDJ9.FShRLd4iEC61tL8huqoERXZwpfWIHHyNfy6_90EyvQM
+
+### 
+POST http://localhost:4040/api/auth/token
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNmM3YjcwLTYzZjItNGU2OS1hYTY4LTM4M2IyYWZiZWJmZiIsImVtYWlsIjoic2V5aTNAZ21haWwuY29tIiwiaWF0IjoxNjg0MDQ4NDA2fQ.3Cb26dURmWgOurcC6LSj5BoafbLI-fzJ6KkU3ixQTAc"
+}
+
+### 
+POST http://localhost:4040/api/auth/logout
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNmM3YjcwLTYzZjItNGU2OS1hYTY4LTM4M2IyYWZiZWJmZiIsImVtYWlsIjoic2V5aTNAZ21haWwuY29tIiwiaWF0IjoxNjg0MDQ4NDA2fQ.3Cb26dURmWgOurcC6LSj5BoafbLI-fzJ6KkU3ixQTAc"
+}

@@ -9,8 +9,14 @@ config();
 const app: Application = express()
 const PORT = process.env.PORT
 
+export let refreshTokenArray: any[] = []
+
+export function deleteToken(token: string) {
+refreshTokenArray = refreshTokenArray.filter(item => item !== token)
+}
+
 app.use(json())
-app.use("/api/v1/users", userRouter)
+app.use("/api/auth", userRouter)
 app.listen(PORT, () => {
     console.log(`listening on port ${PORT}`)
     connect()
