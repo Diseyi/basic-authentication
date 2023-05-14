@@ -6,44 +6,40 @@ import Users from "../models/useModel";
 import { accessToken, refreshToken } from "../utilities/jwt";
 import { getTokenArray } from "..";
 
-export async function findUser(query: FilterQuery<{ id: string; email: string; password: string; }>) {
-    return await Users.findOne(query).lean()
-}
+export class UserService {
 
-export async function validateUser(password: string, comparePassword: string) {
-    return await bcrypt.compare(password, comparePassword)
-}
-
-export async function createUser({ password, email }: { password: string, email: string }) {
-    const fields = {
-        id: uuid(),
-        email,
-        password: await hashPassword(password)
+    static async createUser({ password, email }: { password: string, email: string }) {
+        const fields = {
+            id: uuid(),
+            email,
+            password,
+        }
+        const user = await Users.create(fields);
+        return omit(user.toJSON(), "password", "_id", "__v");
     }
-    const user = await Users.create(fields);
-    const data = { ...omit(user, "password", "_id", "__v")}    
-    return {
-        status: "success",
-        message: "user succesfully created",
-        data: data
+
+    static async authenticateUser(user: { id: string, email: string }) {
+        const { id, email } = user
+        const accesstoken = accessToken(id, email);
+        const refreshtoken = refreshToken(id, email);
+        getTokenArray().push(refreshtoken)
+    
+        return {...omit(user, "password", "_id", "__v"), accesstoken, refreshtoken}
     }
-}
 
-export async function authenticateUser(user: { id: string, email: string }) {
-    const { id, email } = user
-    const accesstoken = accessToken(id, email);
-    const refreshtoken = refreshToken(id, email);
-    getTokenArray().push(refreshtoken)
-
-    const data = { ...omit(user, "password", "_id", "__v"), accesstoken, refreshtoken }
-    return {
-        status: "success",
-        message: "user succesfully signed in",
-        data: data
+    static async findUser(query: FilterQuery<{ id: string; email: string; password: string; }>) {
+        return await Users.findOne(query).lean()
     }
-}
 
-export async function hashPassword(password: string) {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt);
+    static async validateUser(password: string, comparePassword: string) {
+        return await bcrypt.compare(password, comparePassword)
+    }
+
+    static createSuccessResponse(data: any, text: string) {
+        return {
+            status: "success",
+            message: text,
+            data: data,
+        };
+    }
 }

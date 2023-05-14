@@ -2,9 +2,10 @@
 import { Request, Response } from "express";
 import { validationResult} from 'express-validator';
 import jwt from "jsonwebtoken";
-import { findUser, createUser, authenticateUser, validateUser } from "../services/user.services";
+import { UserService } from "../services/user.services";
 import { getTokenArray, removeToken } from "..";
 import { accessToken } from "../utilities/jwt";
+import { validate } from "../middlewares/validate";
 
 const errorJson = {
     status: "failed",
@@ -21,7 +22,8 @@ export class Auth {
             const errorMessages = errors.array().map(error => error.msg);
             return res.status(422).json({ errors: errorMessages });
         }
-        const user = await findUser({ email })
+
+        const user = await UserService.findUser({ email })
         if (user) {
             return res.status(400).json(
                 {
@@ -30,10 +32,10 @@ export class Auth {
                 }
             );
         }
-
         try {
-            const luser = await createUser({password, email})
-            return res.status(200).send(luser)
+            const data = await UserService.createUser({password, email})
+            const userData = UserService.createSuccessResponse(data, "User successfully created!")
+            return res.status(200).send(userData)
         } catch (error) {
             return res.status(400).send({ error: "Login failed" });
         }
@@ -49,27 +51,28 @@ export class Auth {
                 return res.status(422).json({ errors: errorMessages });
         }
     
-        const user = await findUser({email})
+        const user = await UserService.findUser({email})
     
         if (!user || !user.password) {
             return res.status(400).json(errorJson);
         }
     
-        const match = await validateUser(password, user.password);
+        const match = await UserService.validateUser(password, user.password);
     
         if (!match) {
             return res.status(400).json(errorJson);
         }
     
         try {
-            const luser = await authenticateUser(user)
-            return res.status(200).send(luser)
+            const data = await UserService.authenticateUser(user)
+            const userData = UserService.createSuccessResponse(data, "User login successful!")
+            return res.status(200).send(userData)
         } catch (error) {
             return res.status(400).send({ error: "Login failed" });
         }
     }
 
-    static getNewToken (req: Request, res: Response) {
+    static generateNewToken (req: Request, res: Response) {
         const refreshToken = req.body.token
         if (!refreshToken) return res.status(401).send('No token')
     

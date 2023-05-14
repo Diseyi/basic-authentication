@@ -2,17 +2,17 @@
 POST http://localhost:4040/api/auth/signup
 Content-Type: application/json
 
-{
-     "email": "susan1@gmail.com",
-     "password": "password1"
-}
+# {
+#      "email": "susan4@gmail.com",
+#      "password": "password1"
+# }
 
 ### 
 POST http://localhost:4040/api/auth/login
 Content-Type: application/json
 
 {
-     "email": "susan@gmail.com",
+     "email": "susan4@gmail.com",
     "password": "password1"
 }
 
