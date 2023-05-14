@@ -1,6 +1,8 @@
 import express from "express";
-import { User, Login, Signup, DeleteToken, RefreshToken } from "../controllers/userController";
+import { User} from "../controllers/user.controller";
 import { authenticateToken} from "../utilities/jwt";
+import { signupSchema } from "../schema/user.schema";
+import { Auth } from "../controllers/auth.controller";
 
 const router = express.Router()
 
@@ -11,10 +13,10 @@ const router = express.Router()
 // })
 
 router
-.post("/login", Login)
-.post("/signup", Signup)
+.post("/login", signupSchema, Auth.login)
+.post("/signup", signupSchema, Auth.signup)
 .get("/users", authenticateToken, User)
-.post("/token", RefreshToken)
-.post("/logout", DeleteToken)
+.post("/token", Auth.getNewToken)
+.post("/logout", Auth.deleteToken)
 
 export default router

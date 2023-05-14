@@ -3,8 +3,8 @@ POST http://localhost:4040/api/auth/signup
 Content-Type: application/json
 
 {
-    "email": "seyi4@gmail.com",
-    "password": "password1"
+     "email": "susan1@gmail.com",
+     "password": "password1"
 }
 
 ### 
@@ -12,13 +12,13 @@ POST http://localhost:4040/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "seyi3@gmail.com",
+     "email": "susan@gmail.com",
     "password": "password1"
 }
 
 ###
 GET http://localhost:4040/api/auth/users
-Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNmM3YjcwLTYzZjItNGU2OS1hYTY4LTM4M2IyYWZiZWJmZiIsImVtYWlsIjoic2V5aTNAZ21haWwuY29tIiwiaWF0IjoxNjg0MDQ3NzcyLCJleHAiOjE2ODQwNDc4MDJ9.FShRLd4iEC61tL8huqoERXZwpfWIHHyNfy6_90EyvQM
+Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNjODU1ODY4LTcwNDctNDU4NC04MzA4LTUzMDBiNjIyY2JhNCIsImVtYWlsIjoic3VzYW5AZ21haWwuY29tIiwiaWF0IjoxNjg0MDkyNjE4fQ.Ev4C8YbWO8QJls1jzVkKGXSDPJge9UEovvzmpdY_2bg
 
 ### 
 POST http://localhost:4040/api/auth/token
