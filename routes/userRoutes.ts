@@ -3,6 +3,7 @@ import { User} from "../controllers/user.controller";
 import { authenticateToken} from "../utilities/jwt";
 import { signupSchema } from "../schema/user.schema";
 import { Auth } from "../controllers/auth.controller";
+import { Session } from "../controllers/session.controller";
 
 const router = express.Router()
 
@@ -16,7 +17,7 @@ router
 .post("/login", signupSchema, Auth.login)
 .post("/signup", signupSchema, Auth.signup)
 .get("/users", authenticateToken, User)
-.post("/token", Auth.generateNewToken)
-.post("/logout", Auth.deleteToken)
+.post("/token", Session.generateNewToken)
+.post("/deletetoken", Session.deleteToken)
 
 export default router

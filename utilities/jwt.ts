@@ -8,6 +8,20 @@ export interface AuthenticatedRequest extends Request {
   }
 }
 
+export class JWT {
+  static generateToken(id: string, email: string){
+    const user = { id, email }
+  
+    const ACCESSTOKEN = process.env.ACCESS_TOKEN_SECRETS
+    const REFRESHTOKEN = process.env.REFRESH_TOKEN_SECRETS
+  
+    const refreshToken = jwt.sign(user, `${REFRESHTOKEN}`, { expiresIn: "10d" });
+    const accessToken = jwt.sign(user, `${ACCESSTOKEN}`, { expiresIn: "10d" });
+  
+    return {accessToken, refreshToken}
+  }
+}
+
 
 export const accessToken = (id: string, email: string) => {
   const user = { id, email }
@@ -21,6 +35,18 @@ export const refreshToken = (id: string, email: string) => {
   const REFRESHTOKEN = process.env.REFRESH_TOKEN_SECRETS
 
   return jwt.sign(user, `${REFRESHTOKEN}`);
+};
+
+export const generateToken = (id: string, email: string) => {
+  const user = { id, email }
+
+  const ACCESSTOKEN = process.env.ACCESS_TOKEN_SECRETS
+  const REFRESHTOKEN = process.env.REFRESH_TOKEN_SECRETS
+
+  const refreshToken = jwt.sign(user, `${REFRESHTOKEN}`, { expiresIn: "10d" });
+  const accessToken = jwt.sign(user, `${ACCESSTOKEN}`, { expiresIn: "10d" });
+
+  return {accessToken, refreshToken}
 };
 
 export const verifyToken = (token: string, configToken: string) => {

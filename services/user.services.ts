@@ -2,9 +2,8 @@ import { FilterQuery } from "mongoose";
 import * as bcrypt from 'bcrypt';
 const { v4: uuid } = require('uuid');
 import { omit } from "lodash";
-import Users from "../models/useModel";
-import { accessToken, refreshToken } from "../utilities/jwt";
-import { getTokenArray } from "..";
+import Users from "../models/user.model";
+import { JWT, accessToken, refreshToken } from "../utilities/jwt";
 
 export class UserService {
 
@@ -20,11 +19,8 @@ export class UserService {
 
     static async authenticateUser(user: { id: string, email: string }) {
         const { id, email } = user
-        const accesstoken = accessToken(id, email);
-        const refreshtoken = refreshToken(id, email);
-        getTokenArray().push(refreshtoken)
-    
-        return {...omit(user, "password", "_id", "__v"), accesstoken, refreshtoken}
+        const token = JWT.generateToken(id, email)
+        return {...omit(user, "password", "_id", "__v"), ...token}
     }
 
     static async findUser(query: FilterQuery<{ id: string; email: string; password: string; }>) {

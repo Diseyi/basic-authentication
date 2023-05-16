@@ -2,10 +2,10 @@
 POST http://localhost:4040/api/auth/signup
 Content-Type: application/json
 
-# {
-#      "email": "susan4@gmail.com",
-#      "password": "password1"
-# }
+{
+     "email": "susan5@gmail.com",
+     "password": "password1"
+}
 
 ### 
 POST http://localhost:4040/api/auth/login
@@ -25,7 +25,7 @@ POST http://localhost:4040/api/auth/token
 Content-Type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkxNmM3YjcwLTYzZjItNGU2OS1hYTY4LTM4M2IyYWZiZWJmZiIsImVtYWlsIjoic2V5aTNAZ21haWwuY29tIiwiaWF0IjoxNjg0MDQ4NDA2fQ.3Cb26dURmWgOurcC6LSj5BoafbLI-fzJ6KkU3ixQTAc"
+   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImExNGIyNDBmLTQyMGQtNDgyOS1iMzAxLTIxY2JhMDBmOTE2ZSIsImVtYWlsIjoic3VzYW40QGdtYWlsLmNvbSIsImlhdCI6MTY4NDI2NTE1MSwiZXhwIjoxNjg0MjY1MTgxfQ.5v3jJdNH5MiMUZ3N3A1_yyFqFP5GXA9U4NLkku20biE"
 }
 
 ### 
