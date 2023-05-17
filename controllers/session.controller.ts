@@ -39,10 +39,10 @@ export class Session {
 
     static async deleteToken(req: Request, res: Response) {
         try {
-            const userId = req.body.id;
+            const userId = req.params.id;
             if (!userId) throw Error("Error")
             await SessionService.updateSession({ userId }, { refreshToken: null })
-            return res.status(200).send("Successsful")
+            return res.status(200).send({message: "Successsful"})
         } catch (error) {
             log.error(error);
             return res.status(403).send({ error: "Invalid user id" })

@@ -17,7 +17,7 @@ router
 .post("/login", signupSchema, Auth.login)
 .post("/signup", signupSchema, Auth.signup)
 .get("/users", authenticateToken, User)
-.post("/token", Session.generateNewToken)
-.post("/deletetoken", Session.deleteToken)
+.patch("/token", Session.generateNewToken)
+.patch("/token/:id", Session.deleteToken)
 
 export default router
