@@ -1,6 +1,6 @@
 import express from "express";
 import { User} from "../controllers/user.controller";
-import { authenticateToken} from "../utilities/jwt";
+import { authenticateToken} from "../middlewares/authenticateToken";
 import { signupSchema } from "../schema/user.schema";
 import { Auth } from "../controllers/auth.controller";
 import { Session } from "../controllers/session.controller";

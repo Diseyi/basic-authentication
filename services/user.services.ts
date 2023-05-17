@@ -3,10 +3,9 @@ import * as bcrypt from 'bcrypt';
 const { v4: uuid } = require('uuid');
 import { omit } from "lodash";
 import Users from "../models/user.model";
-import { JWT, accessToken, refreshToken } from "../utilities/jwt";
+import { generateToken } from "../utilities/jwt";
 
 export class UserService {
-
     static async createUser({ password, email }: { password: string, email: string }) {
         const fields = {
             id: uuid(),
@@ -19,7 +18,7 @@ export class UserService {
 
     static async authenticateUser(user: { id: string, email: string }) {
         const { id, email } = user
-        const token = JWT.generateToken(id, email)
+        const token = generateToken(id, email)
         return {...omit(user, "password", "_id", "__v"), ...token}
     }
 

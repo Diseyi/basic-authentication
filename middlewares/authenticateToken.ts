@@ -1,5 +1,8 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
+import config from 'config';
+import log from "../utilities/logger";
+
 
 export interface AuthenticatedRequest extends Request {
     user: {
@@ -15,13 +18,13 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
     }
 
     const token = authorization.split(' ')[1]
-    const ACCESSTOKEN = process.env.ACCESS_TOKEN_SECRETS
-
+    const ACCESSTOKEN = config.get<string>('accessTokenKey');
+    
     jwt.verify(token, `${ACCESSTOKEN}`, (err: any, user: any) => {
         if (err) {
+            log.error(err);
             return res.status(403).json({ error: err });
         }
-
         return next()
     });
 }
